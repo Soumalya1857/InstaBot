@@ -1,7 +1,12 @@
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support import ui
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 import time
+import random
+import os
 
 
 class InstaBot:
@@ -28,8 +33,38 @@ class InstaBot:
         password_element = self.driver.find_element_by_xpath("/html/body/div[1]/section/main/article/div[2]/div[1]/div/form/div[3]/div/label/input")
         password_element.clear()
         password_element.send_keys(self.password)
+        password_element.send_keys(Keys.RETURN)
+    
+    def skip_NotNow_LoginInfo(self):
+        #ui.WebDriverWait(self.driver,5).until(EC.element_to_be_clickable( (By.CSS_SELECTOR,".aOOlW.HoLwm") )).click()
+        #time.sleep(2)
+        ui.WebDriverWait(self.driver,10).until(EC.element_to_be_clickable( (By.CSS_SELECTOR,".aOOlW.HoLwm") )).click()
+
+
+    def get_boys(self):
+        driver = self.driver
+        boys = []
+        visited = []
+        with open("bois.txt","r") as file:
+            for row in file:
+                boys.append(row)
+            
+            boy = random.choice(boys)
+            if boy not in visited:
+                visited.append(boy)
+                # search_element = self.driver.find_element_by_xpath("/html/body/div[1]/section/nav/div[2]/div/div/div[2]/div/div")
+                # ui.WebDriverWait(self.driver,5).until(EC.element_to_be_clickable( By.XPATH("/html/body/div[1]/section/nav/div[2]/div/div/div[2]/div/div") )).click()
+                # #search_element.clear()
+                # search_element.send_keys(boy)
+                # search_element.send_keys(Keys.RETURN)
+                print(str(boy))
+                driver.get("https://www.instagram.com/" + str(boy) + "/")
+                time.sleep(2)
 
 
 
-bot = InstaBot("Soumalya","blablabla")
+
+bot = InstaBot("the_hypercool_dude","soumalya@10")
 bot.login()
+bot.skip_NotNow_LoginInfo()
+bot.get_boys()
