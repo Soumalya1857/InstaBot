@@ -50,7 +50,9 @@ class InstaBot:
                 boys.append(row)
             
             boy = random.choice(boys)
-            if boy not in visited:
+        
+            while boy not in visited:
+                boy = random.choice(boys)
                 visited.append(boy)
                 # search_element = self.driver.find_element_by_xpath("/html/body/div[1]/section/nav/div[2]/div/div/div[2]/div/div")
                 # ui.WebDriverWait(self.driver,5).until(EC.element_to_be_clickable( By.XPATH("/html/body/div[1]/section/nav/div[2]/div/div/div[2]/div/div") )).click()
@@ -60,6 +62,9 @@ class InstaBot:
                 print(str(boy))
                 driver.get("https://www.instagram.com/" + str(boy) + "/")
                 time.sleep(2)
+                break
+            
+                
 
 
 
@@ -67,4 +72,11 @@ class InstaBot:
 bot = InstaBot("the_hypercool_dude","soumalya@10")
 bot.login()
 bot.skip_NotNow_LoginInfo()
-bot.get_boys()
+
+while True:
+    temp = input("press y to get another boy:\n press n to exit the system:::: ")
+    if temp == 'y':
+        bot.get_boys()
+    else:
+        bot.closeBrowser()
+        break
